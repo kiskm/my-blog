@@ -1,42 +1,35 @@
-import React from 'react'
+import { getPosts, searchPosts } from "@/lib/post";
+import { Post } from "@/types/post";
+import Card from "@/components/posts/Card";
 
-const Blog = () => {
-    return (
-        <div className="container mx-auto px-4 py-8">
-            <div className='p-4'>
-                <div className="flex justify-between">
-                    <h1 className="text-2xl font-bold mb-4">Article List</h1>
+type SearchParams = {
+  search?: string;
+};
 
-                </div>
-            </div>
-            <table className="table-auto w-full border-collapse border rounded-2xl">
-                <thead>
-                    <tr className="bg-gray-100">
-                        <th className="border p-2 text-center">タイトル</th>
-                        <th className="border p-2 text-center">表示 / 非表示</th>
-                        <th className="border p-2 text-center">更新日時</th>
-                        <th className="border p-2 text-center">操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {/* { posts.map((post)=>(
-                        <tr key={post.id}>
-                            <td className="border p-2">{post.title}</td>
-                            <td className="border p-2 text-center">
-                                {post.published ? "表示" : "非表示"}
-                            </td>
-                            <td className="border p-2 text-center">
-                                {new Date(post.updatedAt).toLocaleString()}
-                            </td>
-                            <td className="border p-2 text-center">
-                                <PostDropdownMenu postId={post.id} />
-                            </td>
-                        </tr>
-                    ))} */}
-                </tbody>
-            </table>
-        </div>
-    )
-}
+const Blog = async ({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) => {
+  const resolvedSearchParams = await searchParams;
+  const query = resolvedSearchParams.search || "";
+
+  const posts = query
+    ? ((await searchPosts(query)) as Post[]) // 記事の型設定(複数)
+    : ((await getPosts()) as Post[]); // 記事の型設定(複数)
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold mb-4">Article List</h1>
+      </div>
+      <div className="grid grid-cols-3 gap-4">
+        {posts.map((post) => (
+          <Card key={post.id} post={post} />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default Blog;

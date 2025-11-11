@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -61,6 +61,10 @@ export default function Home() {
     //     </div>
     //   </main>
     // </div>
-    <></>
+    <div className="flex justify-center p-50">
+      <Link href="/blog/sneering/" className="w-full text-center hover:bg-gray-100 text-9xl">
+        うおｗ
+      </Link>
+    </div>
   );
 }
