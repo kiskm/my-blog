@@ -3,10 +3,40 @@
 // import { postSchema } from "@/validations/post"
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
+import { saveImage } from "@/lib/image"
 
 type ActionState = {
     success: boolean
     errors: Record<string, string[]>
+}
+
+export const createPost = async (
+    prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> => {
+    const title = await formData.get('title') as string
+    const content = await formData.get('content') as string
+    const topImageInput = await formData.get('topImage')
+    const topImage =  topImageInput instanceof File ? topImageInput : null
+
+    const imageUrl = topImage ? await saveImage(topImage) : null
+    if(topImage && !imageUrl) {
+        return { success: false, errors: { image: ['画像の保存に失敗しました']}}
+    }
+    console.log(title)
+    console.log(content)
+    console.log(imageUrl)
+    await prisma.post.create({
+        data: {
+            title,
+            content,
+            topImage: imageUrl,
+            published: true,
+            authorId: "cmhtuoumv00005l8jniymbaej"
+        }
+    })
+
+    redirect('/blog')
 }
 
 export const updatePost = async (
