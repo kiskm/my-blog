@@ -36,13 +36,6 @@ const AdminCreatePage = () => {
                     )}
                 </div>
                 {/* トップ画像 */}
-                {/* <div className="flex flex-col space-y-2">
-                    <label htmlFor="topImage" className="font-bold">トップ画像</label>
-                    <input type="file" id="topImage" accept="image/*" name="topImage"/>
-                    {state.errors.topImage && (
-                        <p className="text-red-500 text-sm mt-1">{state.errors.topImage.join(',')}</p>
-                    )}
-                </div> */}
                 <div className="flex flex-col space-y-2 w-fit">
                     <label htmlFor="topImage" className="font-bold">
                         トップ画像

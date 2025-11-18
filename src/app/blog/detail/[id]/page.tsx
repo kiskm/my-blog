@@ -17,7 +17,7 @@ const PostPage = async ({ params }: Params) => {
     }
     return (
         <div className="container mx-auto px-4 py-8">
-            {/* ヘッダ画像 */}
+            {/* トップ画像 */}
             {post.topImage &&
             <div className="relative w-full h-128">
                 <Image src={post.topImage}
