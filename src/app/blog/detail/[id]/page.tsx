@@ -3,7 +3,7 @@ import { enCA } from "date-fns/locale"
 import { format } from "date-fns"
 import Image from "next/image"
 import { notFound } from "next/navigation"
-import Link from "next/link"
+import BackButton from "@/components/layouts/BackButton"
 
 type Params = {
     params: Promise<{id: string}>
@@ -49,13 +49,9 @@ const PostPage = async ({ params }: Params) => {
             </div>
 
             {/* 戻るボタン */}
-            <div className="flex justify-center space-x-2 mt-12">
-                <button className="text-lg border rounded-md px-3 py-2 bg-white">
-                    <Link href="/blog">ブログ一覧に戻る</Link>
-                </button>
-                <button className="text-lg border rounded-md px-3 py-2 bg-white">
-                    <Link href="/">ホームに戻る</Link>
-                </button>
+            <div className="flex justify-center space-x-6 mt-12">
+                <BackButton href="/blog" text="ブログ一覧に戻る" />
+                <BackButton href="/" text="ホームに戻る" />
             </div>
         </div>
     )
