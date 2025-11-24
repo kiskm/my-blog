@@ -3,18 +3,21 @@ import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import { saveImage } from "@/lib/image"
 import { postSchema } from "@/validations/post"
+import { error } from "console"
 
 type ActionState = {
     success: boolean
     errors: Record<string, string[]>
 }
 
+// 記事の作成
 export const createPost = async (
     prevState: ActionState,
     formData: FormData
 ): Promise<ActionState> => {
     // フォームの情報の取得
     const title = await formData.get('title') as string
+    const category = await formData.get('category') as string
     const content = await formData.get('content') as string
     const topImageInput = await formData.get('topImage')
     const topImage =  topImageInput instanceof File ? topImageInput : null
@@ -23,7 +26,7 @@ export const createPost = async (
         return { success: false, errors: { image: ['画像の保存に失敗しました']}}
     }
     // 公開設定をオフするとnullが送信される
-    const published = formData.get('published') === 'true'
+    const published = formData.get('published') === 'on'
 
     // バリデーション
     const validationResult = postSchema.safeParse({ title, content, topImage })
@@ -31,21 +34,27 @@ export const createPost = async (
         return { success: false, errors: validationResult.error.flatten().fieldErrors }
     }
 
-    // 投稿データの登録
+    const user = await prisma.user.findFirst();
+    if (!user) {
+        throw error
+    }
+
+    // データの登録
     await prisma.post.create({
         data: {
             title,
+            category,
             content,
             topImage: imageUrl,
             published,
-            // authorId: "cmhtuoumv00005l8jniymbaej"
-            authorId: "abcdefghijklmnopqrstuvwxy"
+            authorId: user.id
         }
     })
 
     redirect('/blog')
 }
 
+// 記事の更新
 export const updatePost = async (
     prevState: ActionState,
     formData: FormData
@@ -53,12 +62,13 @@ export const updatePost = async (
 
     // フォームの情報を取得
     const title = formData.get('title') as string
+    const category = await formData.get('category') as string
     const content = formData.get('content') as string
     const topImageInput = formData.get('topImage')
     const topImage = topImageInput instanceof File ? topImageInput : null
     const postId = formData.get('postId') as string
     // 公開設定をオフするとnullが送信される
-    const published = formData.get('published') === 'true'
+    const published = formData.get('published') === 'on'
     const oldImageUrl = formData.get('oldImageUrl') as string
 
     // バリデーション
@@ -83,10 +93,22 @@ export const updatePost = async (
         where: { id: postId },
         data: {
             title,
+            category,
             content,
             published,
             topImage: imageUrl,
         }
+    })
+
+    redirect('/blog')
+}
+
+// 記事の削除
+export const deletePost = async (postId: string)
+: Promise<ActionState> => {
+    // データの削除
+    await prisma.post.delete({
+        where: {id: postId}
     })
 
     redirect('/blog')

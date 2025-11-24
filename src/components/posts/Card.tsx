@@ -4,6 +4,7 @@ import { PostCardProps } from "@/types/post";
 import Image from "next/image";
 import CardDropdownMenu from "@/components/posts/CardDropdownMenu";
 import Link from "next/link";
+import { getCategory } from "@/constants/category";
 
 const Card = ({ post }: PostCardProps) => {
   return (
@@ -12,7 +13,7 @@ const Card = ({ post }: PostCardProps) => {
           {post.topImage && (
             <div className="relative w-full h-48">
               <div className="absolute top-2 left-2 rounded-lg bg-blue-200 text-xs py-1 px-2 z-5">
-                雑に
+                {getCategory(post.category)}
               </div>
               <Link key={post.id} href={`/blog/detail/${post.id}`}>
                 <Image
@@ -24,7 +25,7 @@ const Card = ({ post }: PostCardProps) => {
                   priority // 画像の優先度を高くする
                 />
               </Link>
-              <CardDropdownMenu postId={post.id} />
+              <CardDropdownMenu postId={post.id} postTitle={post.title} />
             </div>
           )}
         </div>

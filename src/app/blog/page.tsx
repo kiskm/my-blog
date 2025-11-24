@@ -24,9 +24,9 @@ const Blog = async ({
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Article List</h1>
         <Link href="/manage/create">
-          <button className="rounded
+          <button className="rounded-md
           bg-black text-white
-          hover:bg-gray-800 hover:text-gray-200 transition-all duration-300
+          hover:bg-gray-800 hover:text-gray-200 cursor-pointer transition-all duration-300
           px-3 py-1">
             New
           </button>

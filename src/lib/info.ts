@@ -11,6 +11,7 @@ export const getPostInfo = async (postId: string) => {
         select: {
             id: true,
             title: true,
+            category: true,
             content: true,
             topImage: true,
             author: true,

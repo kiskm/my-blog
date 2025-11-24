@@ -27,11 +27,13 @@ const main = async () => {
                 create: [
                     {
                         title: 'テスト１',
+                        category: 'diary',
                         content: 'テストテストテストテストテストテストテストテストテストテストテスト',
                         topImage: dummyImages[0],
                         published: true
                     },{
                         title: '虚無',
+                        category: 'diary',
                         content: 'それが虚無ならば虚無自身がこのとほりで　ある程度まではみんなに共通いたします　（すべてがわたくしの中のみんなであるやうに　みんなのおのおののなかのすべてですから）',
                         topImage: dummyImages[1],
                         published: true

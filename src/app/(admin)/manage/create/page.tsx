@@ -35,6 +35,7 @@ const AdminCreatePage = () => {
                     <p className="text-red-500 text-sm mt-1">{state.errors.title.join(',')}</p>
                     )}
                 </div>
+
                 {/* トップ画像 */}
                 <div className="flex flex-col space-y-2 w-fit">
                     <label htmlFor="topImage" className="font-bold">
@@ -45,7 +46,7 @@ const AdminCreatePage = () => {
                         id="topImage"
                         name="topImage"
                         accept="image/*"
-                        className="hidden"
+                        // className="hidden"
                     />
                     <label
                         htmlFor="topImage"
@@ -54,6 +55,19 @@ const AdminCreatePage = () => {
                         画像を選択
                     </label>
                 </div>
+
+                {/* カテゴリー */}
+                <div className="flex flex-col space-y-2 w-fit">
+                    <label htmlFor="category" className="font-bold">
+                        カテゴリー
+                    </label>
+                    <select name="category" id="category">
+                        <option value="">--1 つ選択してください--</option>
+                        <option value="development">開発</option>
+                        <option value="diary">日記</option>
+                    </select>
+                </div>
+
                 {/* 内容 */}
                 <div className="flex flex-col space-y-2">
                     <label htmlFor="content" className="font-bold">内容</label>

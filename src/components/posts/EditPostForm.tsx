@@ -9,6 +9,7 @@ type EditPostFormProps = {
     post: {
         id: string;
         title: string;
+        category: string;
         content: string;
         topImage?: string | null
         published: boolean
@@ -16,6 +17,7 @@ type EditPostFormProps = {
 }
 
 const EditPostForm = ({post}: EditPostFormProps) => {
+    const [ category, setCategory ] = useState(post.category)
     const [ content, setContent ] = useState(post.content)
     const [ contentLength, setContentLength ] = useState(post.content.length)
     const [ published, setPublished ] = useState(post.published)
@@ -82,6 +84,18 @@ const EditPostForm = ({post}: EditPostFormProps) => {
                 {state.errors.topImage && (
                     <p className="text-red-500 text-sm mt-1">{state.errors.topImage.join(',')}</p>
                 )}
+                
+                {/* カテゴリー */}
+                <div className="flex flex-col space-y-2 w-fit">
+                    <label htmlFor="category" className="font-bold">
+                        カテゴリー
+                    </label>
+                    <select name="category" id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="">--1 つ選択してください--</option>
+                        <option value="development">開発</option>
+                        <option value="diary">日記</option>
+                    </select>
+                </div>
 
                 {/* 内容 */}
                 <div className="flex flex-col space-y-1">
