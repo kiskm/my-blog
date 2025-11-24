@@ -19,7 +19,8 @@ const PostPage = async ({ params }: Params) => {
     return (
         <div className="container mx-auto px-4 py-8 space-y-4">
             {/* トップ画像 */}
-            {post.topImage &&
+            {post.topImage ? (
+            // 画像あり
             <div className="relative w-full h-80">
                 <Image src={post.topImage}
                 alt={post.title}
@@ -29,7 +30,11 @@ const PostPage = async ({ params }: Params) => {
                 priority
             />
                 </div>
-            }
+            ) : (
+                <div className="relative w-full h-80 bg-white border rounded-t-md text-lg flex items-center justify-center">
+                    画像なし
+                </div>
+            )}
 
             {/* 投稿者名・投稿時間 */}
             <div className="flex justify-between items-center">

@@ -20,11 +20,13 @@ export const createPost = async (
     const category = await formData.get('category') as string
     const content = await formData.get('content') as string
     const topImageInput = await formData.get('topImage')
-    const topImage =  topImageInput instanceof File ? topImageInput : null
+    // topImageがFileオブジェクトかつ中身が空でないかを判定
+    const topImage = ( topImageInput instanceof File && topImageInput.size > 0 ) ? topImageInput : null
     const imageUrl = topImage ? await saveImage(topImage) : null
     if(topImage && !imageUrl) {
         return { success: false, errors: { image: ['画像の保存に失敗しました']}}
     }
+
     // 公開設定をオフするとnullが送信される
     const published = formData.get('published') === 'on'
 
@@ -64,8 +66,10 @@ export const updatePost = async (
     const title = formData.get('title') as string
     const category = await formData.get('category') as string
     const content = formData.get('content') as string
+    const deleteImage = formData.get('deleteImage') === 'true'
     const topImageInput = formData.get('topImage')
-    const topImage = topImageInput instanceof File ? topImageInput : null
+    // topImageがFileオブジェクトかつ中身が空でないかを判定
+    const topImage = ( topImageInput instanceof File && topImageInput.size > 0 ) ? topImageInput : null
     const postId = formData.get('postId') as string
     // 公開設定をオフするとnullが送信される
     const published = formData.get('published') === 'on'
@@ -78,8 +82,11 @@ export const updatePost = async (
     }
 
     // 画像保存
+    // 画像削除のフラグがtrueの場合、nullにする
     let imageUrl = oldImageUrl
-    if(topImage instanceof File && topImage.size > 0 && topImage.name !== 'undefined') {
+    if (deleteImage) {
+        imageUrl = ''
+    } else if (topImage instanceof File && topImage.size > 0 && topImage.name !== 'undefined') {
         // ファイル形式の情報をsaveImageで渡してURLのパスを取得する
         const newImageUrl = await saveImage(topImage)
         if(!newImageUrl) {

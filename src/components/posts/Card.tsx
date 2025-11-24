@@ -10,7 +10,8 @@ const Card = ({ post }: PostCardProps) => {
   return (
       <div className="relative rounded-xl bg-white border hover:shadow-lg transition-shadow duration-700">
         <div className="flex justify-center">
-          {post.topImage && (
+          {post.topImage ? (
+            // 画像あり
             <div className="relative w-full h-48">
               <div className="absolute top-2 left-2 rounded-lg bg-blue-200 text-xs py-1 px-2 z-5">
                 {getCategory(post.category)}
@@ -24,6 +25,19 @@ const Card = ({ post }: PostCardProps) => {
                   className="rounded-t-md object-cover" // 上の方の角を丸くする アスペクト比を維持したまま、要素のコンテンツボックス全体を埋めるように拡大縮小
                   priority // 画像の優先度を高くする
                 />
+              </Link>
+              <CardDropdownMenu postId={post.id} postTitle={post.title} />
+            </div>
+          ) : (
+            // 画像なし
+            <div className="relative w-full h-48">
+              <div className="absolute top-2 left-2 rounded-lg bg-blue-200 text-xs py-1 px-2 z-5">
+                {getCategory(post.category)}
+              </div>
+              <Link key={post.id} href={`/blog/detail/${post.id}`}>
+                <div className="h-48 w-full bg-white rounded-lg text-lg flex items-center justify-center">
+                  画像なし
+                </div>
               </Link>
               <CardDropdownMenu postId={post.id} postTitle={post.title} />
             </div>

@@ -23,6 +23,7 @@ const EditPostForm = ({post}: EditPostFormProps) => {
     const [ published, setPublished ] = useState(post.published)
     const [ imagePreview, setImagePreview ] = useState(post.topImage)
     const [ title, setTitle ] = useState(post.title)
+    const [ isImageDeleted, setIsImageDeleted ] = useState(false)
     const [ state, formAction, isPending ] = useActionState(updatePost, {
             success: false, errors: {}
     })
@@ -39,6 +40,16 @@ const EditPostForm = ({post}: EditPostFormProps) => {
             // プレビュー用URL生成 ブラウザのメモリに保存される
             const previewUrl = URL.createObjectURL(file)
             setImagePreview(previewUrl)
+            setIsImageDeleted(false)
+        }
+    }
+
+    const handleImageDelete = () => {
+        setImagePreview(null)
+        setIsImageDeleted(true)
+        const fileInput = document.getElementById('topImage') as HTMLInputElement
+        if (fileInput) {
+            fileInput.value = ''
         }
     }
 
@@ -49,7 +60,7 @@ const EditPostForm = ({post}: EditPostFormProps) => {
             <form action={formAction} className="space-y-4">
                 {/* タイトル */}
                 <div className="flex flex-col space-y-1">
-                    <label htmlFor="title">タイトル</label>
+                    <label htmlFor="title" className="font-bold">タイトル</label>
                     <input
                     className="rounded-md border hover:shadow-2xl h-10"
                     type="text" id="title" name="title" placeholder="タイトルを入力"
@@ -60,7 +71,7 @@ const EditPostForm = ({post}: EditPostFormProps) => {
                     )}
                 </div>
                 {/* トップ画像 */}
-                <label htmlFor="topImage">トップ画像</label>
+                <label htmlFor="topImage" className="font-bold">トップ画像</label>
                 <input 
                 type="file"
                 id="topImage" 
@@ -76,9 +87,16 @@ const EditPostForm = ({post}: EditPostFormProps) => {
                                 width={0}
                                 height={0}
                                 sizes="200px"
-                                className="w-[200px]"
+                                className="w-[200px] rounded"
                                 priority
                             />
+                            <button
+                                type="button"
+                                onClick={handleImageDelete}
+                                className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                            >
+                                画像を削除
+                            </button>
                         </div>
                     )}
                 {state.errors.topImage && (
@@ -90,7 +108,8 @@ const EditPostForm = ({post}: EditPostFormProps) => {
                     <label htmlFor="category" className="font-bold">
                         カテゴリー
                     </label>
-                    <select name="category" id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <select name="category" id="category" value={category} onChange={(e) => setCategory(e.target.value)}
+                        className='py-1 px-2 rounded-md border'>
                         <option value="">--1 つ選択してください--</option>
                         <option value="development">開発</option>
                         <option value="diary">日記</option>
@@ -99,7 +118,7 @@ const EditPostForm = ({post}: EditPostFormProps) => {
 
                 {/* 内容 */}
                 <div className="flex flex-col space-y-1">
-                    <label htmlFor="content">内容</label>
+                    <label htmlFor="content" className="font-bold">内容</label>
                     <textarea className="w-full border p-2 min-h-80"
                     id="content" name="content" placeholder="内容を入力"
                     value={content} onChange={handleContentChange}
@@ -141,6 +160,7 @@ const EditPostForm = ({post}: EditPostFormProps) => {
                 {/* 受信データの保持 */}
                 <input type="hidden" name="postId" value={post.id} />
                 <input type="hidden" name="oldImageUrl" value={post.topImage || ''} />
+                <input type="hidden" name="deleteImage" value={isImageDeleted ? 'true' : 'false'} />
             </form>
         </div>
     )
