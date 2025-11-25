@@ -1,7 +1,12 @@
+'use server'
+
 import { getPosts, searchPosts } from "@/lib/post";
 import { Post } from "@/types/post";
 import Card from "@/components/posts/Card";
 import Link from "next/link";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import LogoutButton from "@/components/auth/LogoutButton";
 
 type SearchParams = {
   search?: string;
@@ -12,6 +17,12 @@ const Blog = async ({
 }: {
   searchParams: Promise<SearchParams>;
 }) => {
+  const session = await auth()
+
+  if (!session) {
+    redirect('/login')
+  }
+
   const resolvedSearchParams = await searchParams;
   const query = resolvedSearchParams.search || "";
 
@@ -21,6 +32,12 @@ const Blog = async ({
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col space-y-2">
+        <p className="mb-3">
+          ようこそ、{session.user?.name || session.user?.email}さん
+        </p>
+        <LogoutButton />
+      </div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Article List</h1>
         <Link href="/manage/create">

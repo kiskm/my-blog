@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react"
 import Header from "@/components/layouts/Header";
 import "./globals.css";
 
@@ -9,9 +10,11 @@ const RootLayout = ({
   return (
     <html lang="ja">
       <body>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <Header/>
-        {children}
+        <SessionProvider>
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+          <Header/>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

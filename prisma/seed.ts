@@ -8,8 +8,8 @@ const main = async () => {
     await prisma.post.deleteMany()
     await prisma.user.deleteMany()
 
+    // パスワードのハッシュ化
     const hashedPassword = await bcrypt.hash('password123', 12)
-
 
     // ダミー画像URL
     const dummyImages = [
