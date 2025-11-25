@@ -1,22 +1,22 @@
 import Link from 'next/link'
 
 type ButtonProps = {
-    href: string,
+    id: string,
     text: string
 }
 
-const BackButton = ( props: ButtonProps ) => {
+const ProceedButton = ( { id, text }: ButtonProps ) => {
     return (
-        <Link href={`${props.href}`}>
+        <Link key={id} href={`/blog/detail/${id}`}>
             <button 
             className="text-lg border rounded-md px-3 py-2
-            bg-white hover:bg-gray-200
+            bg-sky-500 hover:bg-sky-600
             transition duration-300 cursor-pointer"
             >
-                {props.text}
+                {text}
             </button>
         </Link>
     )
 }
 
-export default BackButton
+export default ProceedButton

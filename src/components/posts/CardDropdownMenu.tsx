@@ -10,11 +10,13 @@ const CardDropdownMenu = ({postId, postTitle}: {postId: string, postTitle: strin
     const [ isDropdownOpen, setIsDropdownOpen ] = useState(false)
     const [ isDeleteModalOpen, setIsDeleteModalOpen ] = useState(false)
 
+    // 削除ボタン押下時の処理
     const handleDeleteClick = () => {
         setIsDropdownOpen(false); // ドロップダウンを閉じる
         setIsDeleteModalOpen(true); // モーダルを開く
     }
     
+    // 削除確認後の処理
     const handleDeleteConfirm = async () => {
         // 削除処理
         await deletePost(postId)

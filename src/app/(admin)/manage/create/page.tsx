@@ -1,101 +1,140 @@
-'use client'
-import BackButton from "@/components/layouts/BackButton"
-import ToggleButton from "@/components/ui/ToggleButton"
-import { createPost } from "@/lib/actions/crudPost"
-import { useActionState, useState } from "react"
+"use client";
+import BackButton from "@/components/layouts/BackButton";
+import CategorySelect from "@/components/posts/CategorySelect";
+import ImageSelect from "@/components/posts/ImageSelect";
+import TitleField from "@/components/posts/TitleField";
+import ToggleButton from "@/components/ui/ToggleButton";
+import { createPost } from "@/lib/actions/crudPost";
+import { useActionState, useState } from "react";
 
 const AdminCreatePage = () => {
-    const [ content, setContent ] = useState('')
-    const [ contentLength, setContentLength ] = useState(0)
-    const [ title, setTitle ] = useState('')
-    const [ published, setPublished ] = useState(true)
-    const [ state, formAction, isPending ] = useActionState(createPost, {
-            success: false, errors: {}
-    })
+    // 状態管理
+    const [title, setTitle] = useState("");
+    const [imagePreview, setImagePreview] = useState<string | null>(""); // 画像プレビュー
+    const [isImageDeleted, setIsImageDeleted] = useState(false); // 画像削除フラグ
+    const [content, setContent] = useState("");
+    const [contentLength, setContentLength] = useState(0);
+    const [published, setPublished] = useState(true);
 
+    // 送信処理
+    const [state, formAction, isPending] = useActionState(createPost, {
+        success: false,
+        errors: {},
+    });
+
+    // 内容変更時の処理
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value
-    setContent(value)
-    setContentLength(value.length)
-}
+        const value = e.target.value;
+        setContent(value);
+        setContentLength(value.length);
+    };
+
+    // 画像選択時の処理
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+        // プレビュー用URL生成 ブラウザのメモリに保存される
+        const previewUrl = URL.createObjectURL(file);
+        setImagePreview(previewUrl);
+        setIsImageDeleted(false);
+        }
+    };
+
+    // 画像削除時の処理
+    const handleImageDelete = () => {
+        setImagePreview(null);
+        setIsImageDeleted(true);
+        const fileInput = document.getElementById("topImage") as HTMLInputElement;
+        if (fileInput) {
+        fileInput.value = "";
+        }
+    };
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-4">Create New Article</h1>
-            <form action={formAction} className="space-y-6">
-                {/* タイトル */}
-                <div className="flex flex-col space-y-2 w-fit">
-                    <label htmlFor="title" className="font-bold">タイトル</label>
-                    <input
-                    className="rounded-md border h-10 px-2"
-                    type="text" id="title" name="title" placeholder="タイトルを入力"
-                    value={title} onChange={(e) => setTitle(e.target.value)}
-                    />
-                    {state.errors.title && (
-                    <p className="text-red-500 text-sm mt-1">{state.errors.title.join(',')}</p>
-                    )}
-                </div>
+        <h1 className="text-2xl font-bold mb-4">Create New Article</h1>
+        <form action={formAction} className="space-y-6">
+            {/* タイトル */}
+            <TitleField
+            title={title}
+            onChange={setTitle}
+            errorMsg={state.errors.title}
+            />
 
-                {/* トップ画像 */}
-                <div className="flex flex-col space-y-2 w-fit">
-                    <label htmlFor="topImage" className="font-bold">
-                        トップ画像
-                    </label>
-                    <input
-                        type="file"
-                        id="topImage"
-                        name="topImage"
-                        accept="image/*"
-                        // className="hidden"
-                    />
-                    <label
-                        htmlFor="topImage"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer transition"
-                    >
-                        画像を選択
-                    </label>
-                </div>
+            {/* トップ画像 */}
+            <ImageSelect
+            onChange={handleImageChange}
+            onClick={handleImageDelete}
+            imageUrl={imagePreview}
+            alt={title}
+            errorMsg={state.errors.topImage}
+            />
 
-                {/* カテゴリー */}
-                <div className="flex flex-col space-y-2 w-fit">
-                    <label htmlFor="category" className="font-bold">
-                        カテゴリー
-                    </label>
-                    <select name="category" id="category">
-                        <option value="">--1 つ選択してください--</option>
-                        <option value="development">開発</option>
-                        <option value="diary">日記</option>
-                    </select>
-                </div>
+            {/* カテゴリー */}
+            <CategorySelect value="" />
 
-                {/* 内容 */}
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="content" className="font-bold">内容</label>
-                    <textarea className="w-full border p-2 min-h-80"
-                    id="content" name="content" placeholder="内容を入力"
-                    value={content} onChange={handleContentChange}
-                    />
-                    {state.errors.content && (
-                        <p className="text-red-500 text-sm mt-1">{state.errors.content.join(',')}</p>
-                    )}
-                </div>
-                <div className="text-right text-sm text-gray-500 mt-1">
-                    文字数: {contentLength}
-                </div>
+            {/* 内容 */}
+            <div className="flex flex-col space-y-2">
+            {/* 見出し */}
+            <label htmlFor="content" className="font-bold">
+                内容
+            </label>
+            {/* 入力欄 */}
+            <textarea
+                className="w-full border p-2 min-h-80"
+                id="content"
+                name="content"
+                placeholder="内容を入力"
+                value={content}
+                onChange={handleContentChange}
+            />
+            {state.errors.content && (
+                <p className="text-red-500 text-sm mt-1">
+                {state.errors.content.join(",")}
+                </p>
+            )}
+            {/* 文字数カウンター */}
+            <div className="text-right text-sm text-gray-500 mt-1">
+                文字数: {contentLength}
+            </div>
+            </div>
 
-                {/* 公開設定 */}
-                <ToggleButton checked={published} onChange={setPublished} label="published"/>
+            {/* 公開設定 */}
+            <div className="flex-col justify-start items-center space-y-1">
+            <p className="font-bold">公開設定</p>
+            <label
+                htmlFor="published"
+                className="relative inline-block w-14 h-8 cursor-pointer"
+            >
+                <ToggleButton
+                checked={published}
+                onChange={setPublished}
+                label="published"
+                />
+            </label>
+            </div>
 
-                {/* 投稿ボタン */}
-                <div className="flex justify-center space-x-6 mt-12">
-                    <BackButton href="/blog" text="ブログ一覧に戻る" />
-                    <button type="submit" disabled={isPending} className="bg-blue-500 text-white px-4 py-2 rounded" >
-                        {isPending ? '投稿中...' : '投稿する'}
-                    </button>
-                </div>
-            </form>
+            {/* 投稿ボタン */}
+            <div className="flex justify-center space-x-6 mt-12">
+            <BackButton href="/blog" text="ブログ一覧に戻る" />
+            <button
+                type="submit"
+                disabled={isPending}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+            >
+                {isPending ? "投稿中..." : "投稿する"}
+            </button>
+            </div>
+
+            {/* 画像URLの削除フラグ */}
+            <input
+            type="hidden"
+            name="deleteImage"
+            value={isImageDeleted ? "true" : "false"}
+            />
+        </form>
         </div>
-    )
-}
+    );
+};
 
-export default AdminCreatePage
+export default AdminCreatePage;
