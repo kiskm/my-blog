@@ -7,7 +7,7 @@ type ButtonProps = {
 
 const ProceedButton = ( { id, text }: ButtonProps ) => {
     return (
-        <Link key={id} href={`/blog/detail/${id}`}>
+        <Link key={id} href={`/manage/${id}/edit`}>
             <button 
             className="text-lg border rounded-md px-3 py-2
             bg-sky-500 hover:bg-sky-600

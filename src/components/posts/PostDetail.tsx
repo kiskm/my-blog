@@ -19,22 +19,19 @@ type PostDetailProps = {
         content: string;
         topImage?: string | null;
         published: boolean;
+        authorId: string;
         author: {
             name: string;
         };
         createdAt: Date;
     };
+    userId?: string
 };
 
 
-const PostDetail = ({ post }: PostDetailProps) => {
+const PostDetail = ({ post, userId }: PostDetailProps) => {
     // 状態管理
     const [ isDeleteModalOpen, setIsDeleteModalOpen ] = useState(false)
-
-    // 削除ボタン押下時の処理
-    // const handleDeleteClick = () => {
-    //     setIsDeleteModalOpen(true); // モーダルを開く
-    // }
 
     // 削除確認後の処理
     const handleDeleteConfirm = async () => {
@@ -93,15 +90,20 @@ const PostDetail = ({ post }: PostDetailProps) => {
 
             {/* ボタン */}
             <div className="flex justify-center space-x-6 mt-12">
-                {/* 編集ボタン */}
-                <ProceedButton id={post.id} text="記事を編集" />
+                {/* ログイン状態のみ表示 */}
+                {userId === post.authorId && (
+                    <>
+                        {/* 編集ボタン */}
+                        <ProceedButton id={post.id} text="記事を編集" />
 
-                {/* 削除ボタン */}
-                <DeleteButton
-                id={post.id}
-                text="記事を削除"
-                onClick={() => setIsDeleteModalOpen(true)}
-                />
+                        {/* 削除ボタン */}
+                        <DeleteButton
+                        id={post.id}
+                        text="記事を削除"
+                        onClick={() => setIsDeleteModalOpen(true)}
+                        />
+                    </>
+                )}
                 
                 {/* 戻るボタン */}
                 <BackButton href="/blog" text="ブログ一覧に戻る" />

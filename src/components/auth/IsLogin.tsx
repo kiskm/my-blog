@@ -2,7 +2,6 @@
 import { auth } from '@/auth'
 
 const IsLogin = async () => {
-    console.log('よ')
     const session = await auth()
 
     return (

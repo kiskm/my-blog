@@ -14,6 +14,7 @@ export const getPostInfo = async (postId: string) => {
             category: true,
             content: true,
             topImage: true,
+            authorId: true,
             author: true,
             published: true,
             createdAt: true,

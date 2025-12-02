@@ -1,10 +1,18 @@
 import EditPostForm from "@/components/posts/EditPostForm"
 import { getPostInfo } from "@/lib/info"
 import { notFound } from "next/navigation"
+import { Metadata } from "next"
 
 // idを引数にする
 type Params = {
     params: Promise<{id: string}>
+}
+
+export const generateMetadata = async ({ params }: { params: {id: string} }): Promise<Metadata> => {
+    const post = await getPostInfo(params.id)
+    return {
+        title: `${post?.title}の編集`
+    }
 }
 
 const AdminEditPage = async ({ params }: Params) => {

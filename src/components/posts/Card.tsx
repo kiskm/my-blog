@@ -6,7 +6,7 @@ import CardDropdownMenu from "@/components/posts/CardDropdownMenu";
 import Link from "next/link";
 import { getCategory } from "@/constants/category";
 
-const Card = ({ post }: PostCardProps) => {
+const Card = ({ post, userId }: PostCardProps) => {
   return (
       <div className="relative rounded-xl bg-white border hover:shadow-lg transition-shadow duration-700">
         <div className="flex justify-center">
@@ -26,7 +26,12 @@ const Card = ({ post }: PostCardProps) => {
                   priority // 画像の優先度を高くする
                 />
               </Link>
-              <CardDropdownMenu postId={post.id} postTitle={post.title} />
+              <CardDropdownMenu 
+              postId={post.id}
+              postTitle={post.title}
+              authorId={post.authorId}
+              userId={userId}
+              />
             </div>
           ) : (
             // 画像なし
@@ -39,7 +44,12 @@ const Card = ({ post }: PostCardProps) => {
                   画像なし
                 </div>
               </Link>
-              <CardDropdownMenu postId={post.id} postTitle={post.title} />
+              <CardDropdownMenu
+              postId={post.id}
+              postTitle={post.title}
+              authorId={post.authorId}
+              userId={userId}
+              />
             </div>
           )}
         </div>

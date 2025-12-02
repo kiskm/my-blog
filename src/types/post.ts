@@ -5,9 +5,10 @@ export type Post = {
     content: string
     topImage: string | null
     createdAt: Date
+    authorId: string
     author: {
         name: string
     }
 }
 
-export type PostCardProps = { post: Post }
+export type PostCardProps = { post: Post, userId: string }

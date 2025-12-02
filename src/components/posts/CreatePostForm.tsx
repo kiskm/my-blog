@@ -1,35 +1,23 @@
 "use client";
-import { updatePost } from "@/lib/actions/crudPost";
-import React, { useActionState, useState } from "react";
-import BackButton from "../layouts/BackButton";
-import ToggleButton from "../layouts/ToggleButton";
-import CategorySelect from "./CategorySelect";
-import TitleField from "./TitleField";
-import ImageSelect from "./ImageSelect";
+import BackButton from "@/components/layouts/BackButton";
+import CategorySelect from "@/components/posts/CategorySelect";
+import ImageSelect from "@/components/posts/ImageSelect";
+import TitleField from "@/components/posts/TitleField";
+import ToggleButton from "@/components/layouts/ToggleButton";
+import { createPost } from "@/lib/actions/crudPost";
+import { useActionState, useState } from "react";
 
-// 型指定
-type EditPostFormProps = {
-  post: {
-    id: string;
-    title: string;
-    category: string;
-    content: string;
-    topImage?: string | null;
-    published: boolean;
-  };
-};
-
-const EditPostForm = ({ post }: EditPostFormProps) => {
+const CreatePostForm = () => {
   // 状態管理
-  const [title, setTitle] = useState(post.title); // タイトル
-  const [imagePreview, setImagePreview] = useState(post.topImage); // 画像プレビュー
+  const [title, setTitle] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(""); // 画像プレビュー
   const [isImageDeleted, setIsImageDeleted] = useState(false); // 画像削除フラグ
-  const [content, setContent] = useState(post.content); // 内容
-  const [contentLength, setContentLength] = useState(post.content.length); // 内容の文字数
-  const [published, setPublished] = useState(post.published); // 公開設定フラグ
+  const [content, setContent] = useState("");
+  const [contentLength, setContentLength] = useState(0);
+  const [published, setPublished] = useState(true);
 
   // 送信処理
-  const [state, formAction, isPending] = useActionState(updatePost, {
+  const [state, formAction, isPending] = useActionState(createPost, {
     success: false,
     errors: {},
   });
@@ -65,8 +53,9 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* 見出し */}
-      <h1 className="text-2xl font-bold mb-4">{post?.title}の編集</h1>
-      <form action={formAction} className="space-y-4">
+      <h1 className="text-2xl font-bold mb-4">Create New Article</h1>
+      
+      <form action={formAction} className="space-y-6">
         {/* タイトル */}
         <TitleField
           title={title}
@@ -79,18 +68,20 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
           onChange={handleImageChange}
           onClick={handleImageDelete}
           imageUrl={imagePreview}
-          alt={post.title}
+          alt={title}
           errorMsg={state.errors.topImage}
         />
 
         {/* カテゴリー */}
-        <CategorySelect value={post.category} />
+        <CategorySelect value="" />
 
         {/* 内容 */}
-        <div className="flex flex-col space-y-1">
+        <div className="flex flex-col space-y-2">
+          {/* 見出し */}
           <label htmlFor="content" className="font-bold">
             内容
           </label>
+          {/* 入力欄 */}
           <textarea
             className="w-full border p-2 min-h-80"
             id="content"
@@ -104,11 +95,10 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
               {state.errors.content.join(",")}
             </p>
           )}
-        </div>
-
-        {/* 内容の文字数カウンター */}
-        <div className="text-right text-sm text-gray-500 mt-1">
-          文字数: {contentLength}
+          {/* 文字数カウンター */}
+          <div className="text-right text-sm text-gray-500 mt-1">
+            文字数: {contentLength}
+          </div>
         </div>
 
         {/* 公開設定 */}
@@ -126,21 +116,18 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
           </label>
         </div>
 
-        {/* ボタン */}
-        <div className="flex justify-center space-x-2 mt-6">
+        {/* 投稿ボタン */}
+        <div className="flex justify-center space-x-6 mt-12">
+          <BackButton href="/blog" text="ブログ一覧に戻る" />
           <button
             type="submit"
             disabled={isPending}
             className="bg-blue-500 text-white px-4 py-2 rounded"
           >
-            {isPending ? "更新中..." : "更新する"}
+            {isPending ? "投稿中..." : "投稿する"}
           </button>
-          <BackButton href="/blog" text="ブログ一覧に戻る" />
         </div>
 
-        {/* 受信データの保持 */}
-        <input type="hidden" name="postId" value={post.id} />
-        <input type="hidden" name="oldImageUrl" value={post.topImage || ""} />
         {/* 画像URLの削除フラグ */}
         <input
           type="hidden"
@@ -152,4 +139,4 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
   );
 };
 
-export default EditPostForm;
+export default CreatePostForm;

@@ -1,8 +1,9 @@
 'use client'
 import { Session } from "next-auth"
 import Link from "next/link"
+import UserNavigationMenu from "../auth/UserNavigationMenu"
 
-const isLoginHeader = ({ session }: {session: Session}) => {
+const IsLoginHeader = ({ session }: {session: Session}) => {
     return (
         <div>
             <header className="z-50 bg-linear-to-r from-blue-100 to-purple-100 backdrop-blur-md border-b border-gray-200/50">
@@ -14,14 +15,16 @@ const isLoginHeader = ({ session }: {session: Session}) => {
                     >
                         け
                     </Link>
-                    <div className="space-x-12 items-center">
-                        <Link href="/blog" className="hover:text-purple-900 transition-all duration-300">ブログ</Link>
+                    <div className="flex items-center justify-between">
+                        <Link href="/blog" 
+                            className="
+                            px-3 py-1 rounded hover:bg-purple-200 transition duration-100">ブログ</Link>
+                        <UserNavigationMenu userName={session.user?.name as string}/>
                     </div>
-                    <div>{session.user?.name}さん</div>
                 </div>
             </header>
         </div>
     )
 }
 
-export default isLoginHeader
+export default IsLoginHeader

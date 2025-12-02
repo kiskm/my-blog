@@ -5,15 +5,15 @@ type ToggleButtonProps = {
     checked: boolean
 }
 
-const ToggleButton = (props: ToggleButtonProps) => {
+const ToggleButton = ({ label, onChange, checked }: ToggleButtonProps) => {
     return (
         <>
-            <input 
+            <input
                 type="checkbox"
-                name={props.label}
-                id={props.label}
-                checked={props.checked}
-                onChange={(e) => props.onChange(e.target.checked)}
+                name={label}
+                id={label}
+                checked={checked}
+                onChange={(e) => onChange(e.target.checked)}
                 className="sr-only peer"
             />
             <span className="absolute inset-0 bg-gray-300 rounded-full transition peer-checked:bg-blue-500"></span>

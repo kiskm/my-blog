@@ -4,6 +4,7 @@ import { redirect } from "next/navigation"
 import { saveImage } from "@/lib/image"
 import { postSchema } from "@/validations/post"
 import { error } from "console"
+import { auth } from "@/auth"
 
 type ActionState = {
     success: boolean
@@ -36,9 +37,10 @@ export const createPost = async (
         return { success: false, errors: validationResult.error.flatten().fieldErrors }
     }
 
-    const user = await prisma.user.findFirst();
-    if (!user) {
-        throw error
+    const session = await auth();
+    const userId = session?.user?.id
+    if(!session?.user?.email || !userId) {
+        throw new Error('不正なリクエスト')
     }
 
     // データの登録
@@ -49,7 +51,7 @@ export const createPost = async (
             content,
             topImage: imageUrl,
             published,
-            authorId: user.id
+            authorId: userId
         }
     })
 

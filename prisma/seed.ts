@@ -43,8 +43,6 @@ const main = async () => {
             }
         }
     })
-
-    console.log({user})
 }
 
 main()
