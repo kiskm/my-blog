@@ -89,7 +89,8 @@ const PostDetail = ({ post, userId }: PostDetailProps) => {
             </div>
 
             {/* ボタン */}
-            <div className="flex justify-center space-x-6 mt-12">
+            <div className="grid grid-cols-1 space-y-2
+            md:flex md:justify-center md:space-x-6 md:space-y-0 mt-12">
                 {/* ログイン状態のみ表示 */}
                 {userId === post.authorId && (
                     <>

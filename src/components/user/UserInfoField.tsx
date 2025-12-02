@@ -24,7 +24,7 @@ const UserInfoField = ({ label, value, id, type, onChange, errorMsg }: userInfoF
 
             {/* エラーメッセージ */}
             {errorMsg && (
-            <p className="text-red-500 text-sm mt-1">{errorMsg.join(',')}</p>
+            <p className="text-red-500 text-sm mt-1">{errorMsg[0]}</p>
             )}
         </div>
     )

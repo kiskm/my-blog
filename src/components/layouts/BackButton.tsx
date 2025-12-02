@@ -9,7 +9,7 @@ const BackButton = ( props: ButtonProps ) => {
     return (
         <Link href={`${props.href}`}>
             <button 
-            className="text-lg border rounded-md px-3 py-2
+            className="w-full md:w-fit text-lg border rounded-md px-3 py-2
             bg-white hover:bg-gray-200
             transition duration-300 cursor-pointer"
             >

@@ -36,7 +36,9 @@ const PublicHeader = () => {
                         け
                     </Link>
                     <div className="flex items-center justify-between">
+                        {currentUrl !== "/blog" && (
                         <HeaderButton href="/blog" label="ブログ" />
+                        )}
                         <HeaderButton href="/login" label="ログイン" />
                     </div>
                 </div>

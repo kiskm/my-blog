@@ -1,5 +1,4 @@
 'use server'
-
 import { getPostInfo } from "@/lib/info"
 import { notFound } from "next/navigation"
 import PostDetail from "@/components/posts/PostDetail"
@@ -11,8 +10,10 @@ type Params = {
     params: Promise<{id: string}>
 }
 
-export const generateMetadata = async ({ params }: { params: {id: string} }): Promise<Metadata> => {
-    const post = await getPostInfo(params.id)
+// メタデータ
+export const generateMetadata = async ({ params }: Params): Promise<Metadata> => {
+    const { id } = await params
+    const post = await getPostInfo(id)
     return {
         title: post?.title
     }

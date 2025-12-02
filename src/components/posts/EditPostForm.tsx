@@ -127,7 +127,8 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
         </div>
 
         {/* ボタン */}
-        <div className="flex justify-center space-x-2 mt-6">
+        <div className="grid grid-cols-1 space-y-2
+        md:flex md:justify-center md:space-x-2 md:space-y-0 mt-6">
           <button
             type="submit"
             disabled={isPending}

@@ -11,15 +11,16 @@ type SelectImageProps = {
 
 const ImageSelect = ({onChange, onClick, imageUrl, alt, errorMsg}: SelectImageProps) => {
     return (
-        <div className="flex flex-col space-y-2 w-fit">
+        <div className="grid grid-col space-y-2 w-fit">
             {/* 見出し */}
             <label htmlFor="topImage" className="font-bold">トップ画像</label>
 
-            <div className="flex justify-start items-center space-x-2">
+            <div className="flex flex-col space-y-1 md:flex-row md:justify-start md:items-center md:space-x-2 md:space-y-0">
                 {/* ボタン */}
                 <label
                     htmlFor="topImage"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer transition"
+                    className="w-fit px-4 py-2
+                    bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer transition"
                 >
                     画像を選択
                 </label>

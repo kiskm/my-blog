@@ -12,7 +12,7 @@ const DeleteButton = ( { id, text, onClick }: DeleteButtonProps ) => {
         <Link key={id} href={`/blog/detail/${id}`}>
             <button
             onClick={onClick}
-            className="text-lg border rounded-md px-3 py-2
+            className="w-full md:w-fit text-lg border rounded-md px-3 py-2
             bg-red-500 hover:bg-red-600
             transition duration-300 cursor-pointer"
             >

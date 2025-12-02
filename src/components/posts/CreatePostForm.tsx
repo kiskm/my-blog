@@ -117,8 +117,8 @@ const CreatePostForm = () => {
         </div>
 
         {/* 投稿ボタン */}
-        <div className="flex justify-center space-x-6 mt-12">
-          <BackButton href="/blog" text="ブログ一覧に戻る" />
+        <div className="grid grid-cols-1 space-y-2
+        md:flex md:justify-center md:space-x-6 md:space-y-0 mt-12">
           <button
             type="submit"
             disabled={isPending}
@@ -126,6 +126,7 @@ const CreatePostForm = () => {
           >
             {isPending ? "投稿中..." : "投稿する"}
           </button>
+          <BackButton href="/blog" text="ブログ一覧に戻る" />
         </div>
 
         {/* 画像URLの削除フラグ */}

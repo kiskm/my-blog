@@ -19,10 +19,10 @@ const RegisterUserForm = () => {
     })
     
     return (
-        <div className="container w-full max-w-md mx-auto mt-10">
+        <div className="container mx-auto px-4 py-8">
             {/* 見出し */}
             <h1 className="text-2xl font-bold mb-4">ユーザーの新規登録</h1>
-                <form action={formAction} className="space-y-6">
+                <form action={formAction} className="space-y-6" noValidate>
                     {/* 名前 */}
                     <UserInfoField
                     label="お名前"
@@ -63,22 +63,25 @@ const RegisterUserForm = () => {
                     errorMsg={state.errors.confirmPassword}
                     />
 
-                    {/* 登録ボタン */}
-                    <button type="submit" className="
-                    mt-5 w-full bg-black text-white py-2 rounded
-                    hover:bg-gray-800 disabled:bg-gray-400 transition duration-100">
-                        登録
-                    </button>
+                    <div className="grid grid-cols-1 space-y-2
+                    md:flex md:justify-center md:space-x-6 md:space-y-0 mt-8">
+                        {/* 登録ボタン */}
+                        <button type="submit" className="mt-5 w-full md:w-fit
+                        bg-black text-white px-8 py-2 rounded
+                        hover:bg-gray-800 disabled:bg-gray-400 transition duration-100">
+                            登録
+                        </button>
+                        
+                        {/* 登録ボタン */}
+                        <Link href="/login">
+                            <button className="
+                            mt-5 w-full md:w-fit bg-white border px-8 py-2 rounded
+                            hover:bg-gray-200 transition duration-100">
+                                戻る
+                            </button>
+                        </Link>
+                    </div>
                 </form>
-                    
-                {/* 登録ボタン */}
-                <Link href="/login">
-                    <button className="
-                    mt-5 w-full bg-white border py-2 rounded
-                    hover:bg-gray-200 transition duration-100">
-                        戻る
-                    </button>
-                </Link>
         </div>
     )
 }

@@ -2,8 +2,11 @@
 import { Session } from "next-auth"
 import Link from "next/link"
 import UserNavigationMenu from "../auth/UserNavigationMenu"
+import HeaderButton from "./HeaderButton"
+import { usePathname } from "next/navigation"
 
 const IsLoginHeader = ({ session }: {session: Session}) => {
+    const currentUrl = usePathname()
     return (
         <div>
             <header className="z-50 bg-linear-to-r from-blue-100 to-purple-100 backdrop-blur-md border-b border-gray-200/50">
@@ -16,9 +19,9 @@ const IsLoginHeader = ({ session }: {session: Session}) => {
                         け
                     </Link>
                     <div className="flex items-center justify-between">
-                        <Link href="/blog" 
-                            className="
-                            px-3 py-1 rounded hover:bg-purple-200 transition duration-100">ブログ</Link>
+                        {currentUrl !== "/blog" && (
+                        <HeaderButton href="/blog" label="ブログ" />
+                        )}
                         <UserNavigationMenu userName={session.user?.name as string}/>
                     </div>
                 </div>

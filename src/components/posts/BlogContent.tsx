@@ -28,21 +28,6 @@ const BlogContent = async ({
 
     return (
         <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col space-y-2">
-            {session ? (
-                <>
-                    <p className="mb-3">
-                        ようこそ、{session.user?.name}さん
-                    </p>
-                </>
-            ) : (
-                <>
-                    <p className="mb-3">
-                        ようこそ、ゲストさん
-                    </p>
-                </>
-            )}
-        </div>
         <div className="flex justify-between items-center mb-4">
             <h1 className="text-2xl font-bold">Article List</h1>
             <Link href="/manage/create">
@@ -54,7 +39,7 @@ const BlogContent = async ({
             </button>
             </Link>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {posts.map((post) => (
                 <Card key={post.id} post={post} userId={userId || ''}/>
             ))}

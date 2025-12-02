@@ -46,22 +46,27 @@ const LoginForm = () => {
             <p className="text-red-500 text-sm">{state.errors.general.join(',')}</p>
         )}
 
-        {/* 送信ボタン */}
-        <button
-        type="submit"
-        disabled={isPending}
-        className="mt-5 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
-        >
-          {isPending ? 'ログイン中...' : 'ログイン'}
-        </button>
-      </form>
+        <div className="grid grid-cols-1 space-y-2
+        md:flex md:justify-center md:space-x-6 md:space-y-0 mt-8">
+          {/* 送信ボタン */}
+          <button
+          type="submit"
+          disabled={isPending}
+          className="mt-5 w-full md:w-fit bg-blue-500 text-white px-8 py-2 rounded
+          hover:bg-blue-600 disabled:bg-gray-400"
+          >
+            {isPending ? 'ログイン中...' : 'ログイン'}
+          </button>
 
-      {/* 新規登録ボタン */}
-      <Link href="/register">
-        <button className="mt-5 w-full bg-white py-2 rounded border border-b-gray-200 hover:bg-gray-100">
-          新規登録
-        </button>
-      </Link>
+          {/* 新規登録ボタン */}
+          <Link href="/register">
+            <button className="mt-5 w-full md:w-fit bg-white px-8 py-2 rounded
+            border border-b-gray-200 hover:bg-gray-100">
+              新規登録
+            </button>
+          </Link>
+        </div>
+      </form>
     </>
   )
 }
