@@ -2,6 +2,11 @@ import { SessionProvider } from "next-auth/react"
 import Header from "@/components/layouts/Header";
 import "./globals.css";
 import type { Metadata } from "next";
+import { Zen_Maru_Gothic } from 'next/font/google'
+
+const zenMaruGothic = Zen_Maru_Gothic({
+  weight: ['500'],
+})
 
 // メタデータ
 export const metadata: Metadata = {
@@ -18,7 +23,7 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="ja">
+    <html lang="ja" className={zenMaruGothic.className}>
       <body>
         <SessionProvider>
           <link rel="icon" href="/favicon.ico" sizes="any" />

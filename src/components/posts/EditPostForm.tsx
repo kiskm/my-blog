@@ -131,7 +131,8 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
           <button
             type="submit"
             disabled={isPending}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md
+            hover:bg-blue-600 cursor-pointer transition duration-300"
           >
             {isPending ? "更新中..." : "更新する"}
           </button>
