@@ -2,7 +2,7 @@
 import BackButton from "@/components/layouts/BackButton";
 import CategorySelect from "@/components/posts/CategorySelect";
 import ImageSelect from "@/components/posts/ImageSelect";
-import TitleField from "@/components/posts/TitleField";
+import TitleField from "@/components/layouts/TitleField";
 import ToggleButton from "@/components/layouts/ToggleButton";
 import { createPost } from "@/lib/actions/crudPost";
 import { useActionState, useState } from "react";
@@ -54,7 +54,7 @@ const CreatePostForm = () => {
     <div className="container mx-auto px-4 py-8">
       {/* 見出し */}
       <h1 className="text-2xl font-bold mb-4">Create New Article</h1>
-      
+
       <form action={formAction} className="space-y-6">
         {/* タイトル */}
         <TitleField
@@ -117,8 +117,10 @@ const CreatePostForm = () => {
         </div>
 
         {/* 投稿ボタン */}
-        <div className="grid grid-cols-1 space-y-2
-        md:flex md:justify-center md:space-x-6 md:space-y-0 mt-12">
+        <div
+          className="grid grid-cols-1 space-y-2
+        md:flex md:justify-center md:space-x-6 md:space-y-0 mt-12"
+        >
           <button
             type="submit"
             disabled={isPending}

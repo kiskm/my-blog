@@ -1,4 +1,4 @@
-import BlogContent from "@/components/posts/BlogContent";
+import BlogContent from "@/components/posts/contents/BlogContent";
 import type { Metadata } from "next";
 
 type SearchParams = {

@@ -1,7 +1,7 @@
 
 'use client';
 
-import UserInfoField from '@/components/user/UserInfoField';
+import UserInfoField from '@/components/auth/UserInfoField';
 import { createUser } from '@/lib/actions/crudUser';
 import Link from 'next/link';
 import { useActionState, useState } from 'react';import React from 'react'

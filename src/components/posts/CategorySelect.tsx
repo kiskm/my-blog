@@ -1,3 +1,5 @@
+import { CATEGORY_DEVELOPMENT, CATEGORY_DIARY } from "@/constants/category";
+
 // 型指定
 type CategorySelectProps = {
     value: string;
@@ -19,8 +21,8 @@ const CategorySelect = ({ value }: CategorySelectProps) => {
                 className="py-1 px-2 rounded-md border"
             >
                 <option value="">--1 つ選択してください--</option>
-                <option value="development">開発</option>
-                <option value="diary">日記</option>
+                <option value="development">{CATEGORY_DEVELOPMENT}</option>
+                <option value="diary">{CATEGORY_DIARY}</option>
             </select>
         </div>
     );

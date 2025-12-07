@@ -1,11 +1,11 @@
 "use client";
 import { updatePost } from "@/lib/actions/crudPost";
 import React, { useActionState, useState } from "react";
-import BackButton from "../layouts/BackButton";
-import ToggleButton from "../layouts/ToggleButton";
-import CategorySelect from "./CategorySelect";
-import TitleField from "./TitleField";
-import ImageSelect from "./ImageSelect";
+import BackButton from "../../layouts/BackButton";
+import ToggleButton from "../../layouts/ToggleButton";
+import CategorySelect from "../CategorySelect";
+import TitleField from "../../layouts/TitleField";
+import ImageSelect from "../ImageSelect";
 
 // 型指定
 type EditPostFormProps = {
@@ -127,8 +127,10 @@ const EditPostForm = ({ post }: EditPostFormProps) => {
         </div>
 
         {/* ボタン */}
-        <div className="grid grid-cols-1 space-y-2
-        md:flex md:justify-center md:space-x-2 md:space-y-0 mt-6">
+        <div
+          className="grid grid-cols-1 space-y-2
+        md:flex md:justify-center md:space-x-2 md:space-y-0 mt-6"
+        >
           <button
             type="submit"
             disabled={isPending}

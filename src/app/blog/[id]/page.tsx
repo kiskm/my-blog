@@ -27,9 +27,7 @@ const PostPage = async ({ params }: Params) => {
     if (!post) {
         notFound()
     }
-    return (
-        <PostDetail post={post} userId={session?.user?.id} />
-    )
+    return <PostDetail post={post} userId={session?.user?.id} />
 }
 
 export default PostPage
